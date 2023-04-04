@@ -11,18 +11,32 @@
 <body>
 
   <!-- You may reorganise the whole HTML, as long as your form achieves the same effect. -->
-  <form onsubmit="return !1">
-    <label for="input-address">ETH Address</label>
-    <input id="input-address" />
+  <div class="container">    
+    <h1 class="title">Transaction</h1>
+    <form id="transaction-form">
 
-    <label for="input-amount">Amount to send</label>
-    <input id="input-amount" />
+        <div class="form-group">
+            <label for="input-address">ETH Address</label>
+            <input id="input-address" type="text" placeholder="Please enter the 42-character hexadecimal address" required/>
+        </div>
 
-    <label for="input-otp">OTP Authentication</label>
-    <input type="number" id="input-otp" />
+        <div class="form-group">
+            <label for="input-amount">Amount to send</label>
+            <input id="input-amount" type="number" step="0.01" placeholder="Please enter the transaction amount" required/>
+        </div>
 
-    <button>SEND TOKENS</button>
-  </form>
+        <div class="form-group">
+            <label for="input-otp">OTP Authentication</label>
+            <input type="number" id="input-otp" placeholder="Please enter the OTP received" required/>
+        </div>
+
+        <div class="button-container">
+            <button class="submit-button">SEND TOKENS</button>
+        </div>
+
+    </form>
+  </div>
+  
   <script src="script.js"></script>
 </body>
 

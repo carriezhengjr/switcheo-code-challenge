@@ -1,8 +1,74 @@
 body {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  min-width: 360px;
-  font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    min-width: 360px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-image:
+        linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.4),
+        rgba(196, 136, 276, 0.7)
+        ),
+        /* Source: https://www.freepik.com/free-vector/point-coins-background_12460087.htm#query=money%20background&position=1&from_view=keyword&track=ais*/
+        url(https://img.freepik.com/free-vector/point-coins-background_52683-56390.jpg?w=1800&t=st=1680587940~exp=1680588540~hmac=8ec541c340d6f2c275f85e6ca524f39738ac8d35cf3b06ce4810ba09fb95da42);
+}
+
+.container {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    position: relative;
+}
+
+.submit-button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #388e3c;
 }
