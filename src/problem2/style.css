@@ -72,3 +72,12 @@ input {
 .submit-button:hover {
     background-color: #388e3c;
 }
+
+.success-message {
+    color: rgb(14, 130, 14);
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}
+  
