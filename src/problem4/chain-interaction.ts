@@ -1,8 +1,10 @@
+// Referenced from https://docs.ethers.org/v6/getting-started/
+
 import { ethers } from 'ethers';
 
 // Connects to the Ethereum network using RPC.
 // The RPC endpoint is taken from https://docs.bnbchain.org/docs/rpc
-const provider = new ethers.providers.JsonRpcProvider('https://bsc-dataseed.binance.org');
+const provider = new ethers.JsonRpcProvider('https://bsc-dataseed.binance.org');
 
 // Connects to the $SWTH Token Contract.
 const swthTokenContractAddress = '0xc0ecb8499d8da2771abcbf4091db7f65158f1468';
@@ -26,7 +28,7 @@ async function retrieveBalances() {
     // Gets the balance of the address.
     const balance = await swthTokenContract.balanceOf(address);
     // Formats the amount for displaying to the user with 8 decimal places as stated on https://bscscan.com/token/0x250b211ee44459dad5cd3bca803dd6a7ecb5d46c
-    console.log(`${address} ${ethers.utils.formatUnits(balance, 8)}`);
+    console.log(`${address} ${ethers.formatUnits(balance, 8)}`);
   }
 }
 
