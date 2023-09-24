@@ -6,6 +6,7 @@ import './CurrencySelectionModal.css';
 
 function CurrencySelectionModal({ onSelect, field, options, onClose }) {
   const [selectedCurrency, setSelectedCurrency] = useState('');
+  const [filterText, setFilterText] = useState(''); // State for filter text
 
   // Function to handle currency selection
   const handleCurrencySelection = () => {
@@ -31,6 +32,11 @@ function CurrencySelectionModal({ onSelect, field, options, onClose }) {
     };
   }, [handleOutsideClick]);
 
+  // Filter options based on the filter text
+  const filteredOptions = options.filter((option) =>
+    option.label.toLowerCase().includes(filterText.toLowerCase())
+  );
+
   return (
     <div className="modal-overlay">
       <div className="currency-modal">
@@ -41,17 +47,25 @@ function CurrencySelectionModal({ onSelect, field, options, onClose }) {
         <input
           type="text"
           placeholder="Type currency..."
-          value={selectedCurrency}
-          onChange={(e) => setSelectedCurrency(e.target.value)}
+          value={filterText} // Bind input value to filterText
+          onChange={(e) => setFilterText(e.target.value)} // Update filterText on input change
         />
         <ul>
-          {options.map((option) => (
-            <li key={option.value} onClick={() => setSelectedCurrency(option.value)}>
+          {filteredOptions.map((option) => (
+            <li
+              key={option.value}
+              onClick={() => {
+                setSelectedCurrency(option.value);
+                setFilterText(''); // Clear the filter text on selection
+              }}
+            >
               {option.label}
             </li>
           ))}
         </ul>
-        <button className="select-button" onClick={handleCurrencySelection}>Select</button>
+        <button className="select-button" onClick={handleCurrencySelection}>
+          Select
+        </button>
       </div>
     </div>
   );
