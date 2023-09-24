@@ -1,12 +1,16 @@
 // CurrencySwapForm.js
 
 import React, { useState, useEffect } from 'react';
-import './styles.css';
 import { RiExchangeFill } from "react-icons/ri";
+import './styles.css';
+import CurrencySelectionModal from './components/CurrencySelectionModal';
 
 function CurrencySwapForm() {
   const [sendAmount, setSendAmount] = useState('');
   const [receiveAmount, setReceiveAmount] = useState('');
+  const [selectedSendCurrency, setSelectedSendCurrency] = useState('');
+  const [selectedReceiveCurrency, setSelectedReceiveCurrency] = useState('');
+  const [isCurrencyModalOpen, setIsCurrencyModalOpen] = useState(false);
   const [currencyOptions, setCurrencyOptions] = useState([]);
 
   useEffect(() => {
@@ -46,6 +50,28 @@ function CurrencySwapForm() {
     // Exchange rate calculations to be added later
   };
 
+  // Function to open the currency selection modal
+  const openCurrencyModal = () => {
+    setIsCurrencyModalOpen(true);
+  };
+
+  // Function to close the currency selection modal
+  const closeCurrencyModal = () => {
+    console.log("Closing modal");
+    setIsCurrencyModalOpen(false);
+  };
+
+  // Function to handle currency selection
+  const handleCurrencySelect = (currency, field) => {
+    if (field === 'send') {
+      setSelectedSendCurrency(currency);
+    } else if (field === 'receive') {
+      setSelectedReceiveCurrency(currency);
+    }
+
+    closeCurrencyModal();
+  };
+
   // Function to handle "Confirm swap" button click
   const handleConfirmSwap = () => {
     alert('Swap confirmed!');
@@ -62,17 +88,17 @@ function CurrencySwapForm() {
           onChange={handleSendAmountChange}
           placeholder="0.00"
         />
-        <select>
-        <option value="">Select currency</option>
-        {currencyOptions.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.value}
-          </option>
-        ))}
-      </select>
       </div>
-      <div className="exchange-icon">
-        <RiExchangeFill size={40} style={{ transform: 'rotate(90deg)' }} />
+      <div className="currency-button-container">
+        <button className="currency-button" onClick={openCurrencyModal}>
+          {selectedSendCurrency || 'Select currency'}
+        </button>
+        <div className="exchange-icon">
+          <RiExchangeFill size={40} style={{ transform: 'rotate(90deg)' }} />
+        </div>
+        <button className="currency-button" onClick={openCurrencyModal}>
+          {selectedReceiveCurrency || 'Select currency'}
+        </button>
       </div>
       <div>
         <label>Amount to receive:</label>
@@ -82,18 +108,15 @@ function CurrencySwapForm() {
           onChange={handleReceiveAmountChange}
           placeholder="0.00"
         />
-        <select>
-        <option value="">Select currency</option>
-        {currencyOptions.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.value}
-          </option>
-        ))}
-      </select>
       </div>
       <div className="button-container">
-        <button onClick={handleConfirmSwap}>Confirm swap</button>
+        <button onClick={handleConfirmSwap} className="confirm-swap-button">
+          Confirm swap
+        </button>
       </div>
+      {isCurrencyModalOpen && (
+        <CurrencySelectionModal onSelect={handleCurrencySelect} field="send" options={currencyOptions} onClose={closeCurrencyModal} />
+      )}
     </div>
   );
 }

@@ -32,14 +32,44 @@ body {
   border: 1px solid #ccc;
 }
 
+/* Style the currency buttons and icon container */
+.currency-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 24px;
+  margin-bottom: 28px;
+}
+
+.currency-button-container .currency-button {
+  background-color: #62e5e1;
+  color: #2b2525;
+  font: 1em sans-serif;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.currency-button-container .currency-button:hover {
+  background-color: #2fd0ca;
+}
+
+/* Style the exchange icon */
+.exchange-icon {
+  color: #2b2525;
+  margin: 5px;
+}
+
 /* Style the submit button */
 .button-container {
   margin-top: 20px;
 }
 
-.form-container button {
-  background-color: #11dad3;
-  color: black;
+.confirm-swap-button {
+  background-color: #11da5b;
+  color: #2b2525;
   font: 1em sans-serif;
   font-weight: bold;
   border: none;
@@ -48,6 +78,6 @@ body {
   border-radius: 10px;
 }
 
-.form-container button:hover {
-  background-color: #1ac2bc;
+.confirm-swap-button:hover {
+  background-color: #0fbb4e;
 }
