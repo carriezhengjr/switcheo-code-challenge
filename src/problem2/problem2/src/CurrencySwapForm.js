@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { RiExchangeFill } from 'react-icons/ri';
 import './styles.css';
 import CurrencySelectionModal from './components/CurrencySelectionModal';
+import SwapCompletedModal from './components/SwapCompletedModal';
 
 function CurrencySwapForm() {
   const [sendAmount, setSendAmount] = useState('');
@@ -12,6 +13,7 @@ function CurrencySwapForm() {
   const [isReceiveCurrencyModalOpen, setIsReceiveCurrencyModalOpen] = useState(false);
   const [currencyOptions, setCurrencyOptions] = useState([]);
   const [exchangeRates, setExchangeRates] = useState({});
+  const [isSwapCompleted, setIsSwapCompleted] = useState(false);
 
   useEffect(() => {
     // Fetch JSON data.
@@ -103,9 +105,19 @@ function CurrencySwapForm() {
     closeCurrencyModal();
   };
 
+  // Function to open the swap completed modal
+  const openSwapCompletedModal = () => {
+    setIsSwapCompleted(true);
+  };
+
+  // Function to close the swap completed modal
+  const closeSwapCompletedModal = () => {
+    setIsSwapCompleted(false);
+  };
+
   // Function to handle "Confirm swap" button click
   const handleConfirmSwap = () => {
-    alert('Swap confirmed!');
+    openSwapCompletedModal(); // Open the modal when the button is clicked
   };
 
   return (
@@ -161,6 +173,9 @@ function CurrencySwapForm() {
           Confirm swap
         </button>
       </div>
+      {isSwapCompleted && (
+        <SwapCompletedModal onClose={closeSwapCompletedModal} />
+      )}
     </div>
   );
 }
