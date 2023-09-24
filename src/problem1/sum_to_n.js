@@ -35,7 +35,7 @@ var sum_to_n_c = function(n) {
   return n * (n + 1) / 2;
 };
 
-
+/*
 // Testcases
 // Uncomment this code snippet. 
 // In the directory /src/problem1, run the file using `node sum_to_n.js`.
@@ -63,3 +63,4 @@ function test_sum_to_n(func) {
 test_sum_to_n(sum_to_n_a);
 test_sum_to_n(sum_to_n_b);
 test_sum_to_n(sum_to_n_c);
+*/
