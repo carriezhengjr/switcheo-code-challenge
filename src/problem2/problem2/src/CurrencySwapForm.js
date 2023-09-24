@@ -1,7 +1,5 @@
-// CurrencySwapForm.js
-
 import React, { useState, useEffect } from 'react';
-import { RiExchangeFill } from "react-icons/ri";
+import { RiExchangeFill } from 'react-icons/ri';
 import './styles.css';
 import CurrencySelectionModal from './components/CurrencySelectionModal';
 
@@ -13,13 +11,14 @@ function CurrencySwapForm() {
   const [isSendCurrencyModalOpen, setIsSendCurrencyModalOpen] = useState(false);
   const [isReceiveCurrencyModalOpen, setIsReceiveCurrencyModalOpen] = useState(false);
   const [currencyOptions, setCurrencyOptions] = useState([]);
+  const [exchangeRates, setExchangeRates] = useState({});
 
   useEffect(() => {
     // Fetch JSON data.
     fetch('https://interview.switcheo.com/prices.json')
       .then((response) => response.json())
       .then((data) => {
-        // Extract unique currency codes 
+        // Extract unique currency codes
         const uniqueCurrencyCodes = [...new Set(data.map((item) => item.currency))];
 
         // Create currency options with code and label
@@ -29,27 +28,52 @@ function CurrencySwapForm() {
         }));
 
         setCurrencyOptions(options);
+
+        // Calculate exchange rates
+        const rates = {};
+        data.forEach((item) => {
+          rates[item.currency] = item.price;
+        });
+
+        setExchangeRates(rates);
       })
       .catch((error) => {
         console.error('Error fetching currency data:', error);
       });
   }, []);
 
+  useEffect(() => {
+    // Calculate receive amount whenever send amount, selected currencies, or exchange rates change
+    if (selectedSendCurrency && selectedReceiveCurrency && sendAmount !== '') {
+      const sendAmountFloat = parseFloat(sendAmount);
+      const exchangeRate = exchangeRates[selectedSendCurrency] / exchangeRates[selectedReceiveCurrency];
+      const receiveAmountFloat = sendAmountFloat * exchangeRate;
+      setReceiveAmount(receiveAmountFloat);
+    } else {
+      setReceiveAmount('');
+    }
+  }, [sendAmount, selectedSendCurrency, selectedReceiveCurrency, exchangeRates]);
+  
   // Function to handle changes in "Amount to send" input
   const handleSendAmountChange = (event) => {
     const value = event.target.value;
     setSendAmount(value);
-
-    // Exchange rate calculations to be added later
   };
-
+  
   // Function to handle changes in "Amount to receive" input
   const handleReceiveAmountChange = (event) => {
     const value = event.target.value;
     setReceiveAmount(value);
-
-    // Exchange rate calculations to be added later
-  };
+    // Calculate send amount based on receive amount, selected currencies, and exchange rates
+    if (selectedSendCurrency && selectedReceiveCurrency && value !== '') {
+      const receiveAmountFloat = parseFloat(value);
+      const exchangeRate = exchangeRates[selectedSendCurrency] / exchangeRates[selectedReceiveCurrency];
+      const sendAmountFloat = receiveAmountFloat / exchangeRate; // Corrected calculation here
+      setSendAmount(sendAmountFloat);
+    } else {
+      setSendAmount('');
+    }
+  };  
 
   // Function to open the currency selection modal for sending
   const openSendCurrencyModal = () => {
@@ -107,10 +131,20 @@ function CurrencySwapForm() {
           {selectedReceiveCurrency || 'Select currency'}
         </button>
         {isSendCurrencyModalOpen && (
-          <CurrencySelectionModal onSelect={handleSendCurrencySelect} field="send" options={currencyOptions} onClose={closeCurrencyModal} />
+          <CurrencySelectionModal
+            onSelect={handleSendCurrencySelect}
+            field="send"
+            options={currencyOptions}
+            onClose={closeCurrencyModal}
+          />
         )}
         {isReceiveCurrencyModalOpen && (
-          <CurrencySelectionModal onSelect={handleReceiveCurrencySelect} field="receive" options={currencyOptions} onClose={closeCurrencyModal} />
+          <CurrencySelectionModal
+            onSelect={handleReceiveCurrencySelect}
+            field="receive"
+            options={currencyOptions}
+            onClose={closeCurrencyModal}
+          />
         )}
       </div>
       <div>
