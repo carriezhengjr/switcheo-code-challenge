@@ -1,5 +1,3 @@
-// CurrencySelectionModal.js
-
 import React, { useState, useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import './CurrencySelectionModal.css';
@@ -9,9 +7,9 @@ function CurrencySelectionModal({ onSelect, field, options, onClose }) {
   const [filterText, setFilterText] = useState(''); // State for filter text
 
   // Function to handle currency selection
-  const handleCurrencySelection = () => {
+  const handleCurrencySelection = (option) => {
     // Call the parent component's onSelect function to update the selected currency
-    onSelect(selectedCurrency, field);
+    onSelect(option.value, field);
     onClose(); // Close the modal after selection
   };
 
@@ -57,15 +55,13 @@ function CurrencySelectionModal({ onSelect, field, options, onClose }) {
               onClick={() => {
                 setSelectedCurrency(option.value);
                 setFilterText(''); // Clear the filter text on selection
+                handleCurrencySelection(option);
               }}
             >
               {option.label}
             </li>
           ))}
         </ul>
-        <button className="select-button" onClick={handleCurrencySelection}>
-          Select
-        </button>
       </div>
     </div>
   );

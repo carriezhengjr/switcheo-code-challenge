@@ -10,7 +10,8 @@ function CurrencySwapForm() {
   const [receiveAmount, setReceiveAmount] = useState('');
   const [selectedSendCurrency, setSelectedSendCurrency] = useState('');
   const [selectedReceiveCurrency, setSelectedReceiveCurrency] = useState('');
-  const [isCurrencyModalOpen, setIsCurrencyModalOpen] = useState(false);
+  const [isSendCurrencyModalOpen, setIsSendCurrencyModalOpen] = useState(false);
+  const [isReceiveCurrencyModalOpen, setIsReceiveCurrencyModalOpen] = useState(false);
   const [currencyOptions, setCurrencyOptions] = useState([]);
 
   useEffect(() => {
@@ -50,25 +51,31 @@ function CurrencySwapForm() {
     // Exchange rate calculations to be added later
   };
 
-  // Function to open the currency selection modal
-  const openCurrencyModal = () => {
-    setIsCurrencyModalOpen(true);
+  // Function to open the currency selection modal for sending
+  const openSendCurrencyModal = () => {
+    setIsSendCurrencyModalOpen(true);
+  };
+
+  // Function to open the currency selection modal for receiving
+  const openReceiveCurrencyModal = () => {
+    setIsReceiveCurrencyModalOpen(true);
   };
 
   // Function to close the currency selection modal
   const closeCurrencyModal = () => {
-    console.log("Closing modal");
-    setIsCurrencyModalOpen(false);
+    setIsSendCurrencyModalOpen(false);
+    setIsReceiveCurrencyModalOpen(false);
   };
 
-  // Function to handle currency selection
-  const handleCurrencySelect = (currency, field) => {
-    if (field === 'send') {
-      setSelectedSendCurrency(currency);
-    } else if (field === 'receive') {
-      setSelectedReceiveCurrency(currency);
-    }
+  // Function to handle currency selection for sending
+  const handleSendCurrencySelect = (currency) => {
+    setSelectedSendCurrency(currency);
+    closeCurrencyModal();
+  };
 
+  // Function to handle currency selection for receiving
+  const handleReceiveCurrencySelect = (currency) => {
+    setSelectedReceiveCurrency(currency);
     closeCurrencyModal();
   };
 
@@ -90,15 +97,21 @@ function CurrencySwapForm() {
         />
       </div>
       <div className="currency-button-container">
-        <button className="currency-button" onClick={openCurrencyModal}>
+        <button className="currency-button" onClick={openSendCurrencyModal}>
           {selectedSendCurrency || 'Select currency'}
         </button>
         <div className="exchange-icon">
           <RiExchangeFill size={40} style={{ transform: 'rotate(90deg)' }} />
         </div>
-        <button className="currency-button" onClick={openCurrencyModal}>
+        <button className="currency-button" onClick={openReceiveCurrencyModal}>
           {selectedReceiveCurrency || 'Select currency'}
         </button>
+        {isSendCurrencyModalOpen && (
+          <CurrencySelectionModal onSelect={handleSendCurrencySelect} field="send" options={currencyOptions} onClose={closeCurrencyModal} />
+        )}
+        {isReceiveCurrencyModalOpen && (
+          <CurrencySelectionModal onSelect={handleReceiveCurrencySelect} field="receive" options={currencyOptions} onClose={closeCurrencyModal} />
+        )}
       </div>
       <div>
         <label>Amount to receive:</label>
@@ -114,9 +127,6 @@ function CurrencySwapForm() {
           Confirm swap
         </button>
       </div>
-      {isCurrencyModalOpen && (
-        <CurrencySelectionModal onSelect={handleCurrencySelect} field="send" options={currencyOptions} onClose={closeCurrencyModal} />
-      )}
     </div>
   );
 }
