@@ -3,7 +3,6 @@ import { AiOutlineClose } from 'react-icons/ai';
 import './CurrencySelectionModal.css';
 
 function CurrencySelectionModal({ onSelect, field, options, onClose }) {
-  const [selectedCurrency, setSelectedCurrency] = useState('');
   const [filterText, setFilterText] = useState(''); // State for filter text
 
   // Function to handle currency selection
@@ -13,14 +12,14 @@ function CurrencySelectionModal({ onSelect, field, options, onClose }) {
     onClose(); // Close the modal after selection
   };
 
-  // Function to handle a click outside of the modal
-  const handleOutsideClick = (e) => {
-    if (e.target.classList.contains('modal-overlay')) {
-      onClose();
-    }
-  };
-
   useEffect(() => {
+    // Function to handle a click outside of the modal
+    const handleOutsideClick = (e) => {
+      if (e.target.classList.contains('modal-overlay')) {
+        onClose();
+      }
+    };
+
     // Add event listener for clicks outside the modal
     window.addEventListener('click', handleOutsideClick);
 
@@ -28,7 +27,7 @@ function CurrencySelectionModal({ onSelect, field, options, onClose }) {
     return () => {
       window.removeEventListener('click', handleOutsideClick);
     };
-  }, [handleOutsideClick]);
+  });
 
   // Filter options based on the filter text
   const filteredOptions = options.filter((option) =>
@@ -53,7 +52,6 @@ function CurrencySelectionModal({ onSelect, field, options, onClose }) {
             <li
               key={option.value}
               onClick={() => {
-                setSelectedCurrency(option.value);
                 setFilterText(''); // Clear the filter text on selection
                 handleCurrencySelection(option);
               }}
