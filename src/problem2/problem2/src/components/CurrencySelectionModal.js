@@ -1,6 +1,6 @@
 // CurrencySelectionModal.js
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import './CurrencySelectionModal.css';
 
@@ -13,6 +13,23 @@ function CurrencySelectionModal({ onSelect, field, options, onClose }) {
     onSelect(selectedCurrency, field);
     onClose(); // Close the modal after selection
   };
+
+  // Function to handle a click outside of the modal
+  const handleOutsideClick = (e) => {
+    if (e.target.classList.contains('modal-overlay')) {
+      onClose();
+    }
+  };
+
+  useEffect(() => {
+    // Add event listener for clicks outside the modal
+    window.addEventListener('click', handleOutsideClick);
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('click', handleOutsideClick);
+    };
+  }, [handleOutsideClick]);
 
   return (
     <div className="modal-overlay">
