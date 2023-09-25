@@ -1,0 +1,45 @@
+– Issue: Console Error Typo
+line 28: console.err(error);
+Property 'err' does not exist on type 'Console'.
+– Improvement: console.error(error);
+
+
+– Issue: Missing property on WalletBalance
+lines 51, 59, 60
+Property 'blockchain' does not exist on type 'WalletBalance'.
+– Improvement: 
+interface WalletBalance {
+  currency: string;
+  amount: number;
+  blockchain: string; // Add blockchain field
+}
+
+
+– Issue: lhsPriority is not defined
+line 52: if (lhsPriority > -99) {
+ – Improvement: if (balancePriority > -99) {
+
+
+– Issue: Hardcoded Data
+Priorities for different blockchains are hardcoded within the getPriority function. 
+The numbers appear to be "magic numbers" which are hard to understand, and also less maintainable if priorities change.
+– Improvement: We can use named constants or an object to associate priorities with blockchain names for better readability and maintainability.
+– Example:
+Define an object called BLOCKCHAIN_PRIORITIES, where the keys are the blockchain names, 
+and the values are the corresponding priorities as named constants. 
+This approach makes it clear which priority value corresponds to which blockchain.
+The getPriority function now takes a blockchain name as input and directly retrieves the priority value from the BLOCKCHAIN_PRIORITIES object. 
+If the blockchain name is not found in the object, it defaults to -99, which can represent an "unknown" or "unrecognized" priority.
+If priorities need to be updated in future, we can do so in one place (inside the BLOCKCHAIN_PRIORITIES object) rather than scattered throughout the code.
+
+const BLOCKCHAIN_PRIORITIES = {
+  Osmosis: 100,
+  Ethereum: 50,
+  Arbitrum: 30,
+  Zilliqa: 20,
+  Neo: 20,
+};
+
+const getPriority = (blockchain: string): number => {
+  return BLOCKCHAIN_PRIORITIES[blockchain] || -99;
+};
